@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>會員頁</title>
+</head>
+<body>
+    <h3>會員頁面</h3>
+    <div id="welcome"></div>
+    <script>
+        async function check(form) {
+            let response=await fetch("/api/member/auth");
+            let result=await response.json();
+            if(result.ok){
+                document.querySelector("#welcome").textContent = "歡迎光臨，" + result.name;
+            }else{
+                window.location = "/"; 
+            }
+        }
+        check();
+    </script>
+</body>
+</html>

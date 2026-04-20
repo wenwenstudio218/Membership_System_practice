@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>首頁</title>
+</head>
+<body>
+    <h3>會員註冊</h3>
+    <form onsubmit="signup(this);return false;">
+        姓名 <input type="text" name="name">
+        信箱 <input type="text" name="email">
+        密碼 <input type="password" name="password">
+        <button>註冊</button>
+    </form>
+    <script>
+        async function signup(form) {
+            let response=await fetch("/api/member",{
+                method:"POST",
+                headers:{
+                    "Content-Type":"application/x-www-form-urlencoded"
+                },
+                body:"name="+encodeURIComponent(form.name.value)+"&email="+encodeURIComponent(form.email.value)+"&password="+encodeURIComponent(form.password.value)
+            });
+            let result=await response.json();
+            if(result.ok){
+                alert("註冊成功");
+            }else{
+                alert("註冊失敗");
+            }
+        }
+    </script>
+    <h3>會員登入</h3>
+    <form onsubmit="signin(this);return false;">
+        信箱 <input type="text" name="email">
+        密碼 <input type="password" name="password">
+        <button>登入</button>
+    </form>
+    <script>
+        async function signin(form) {
+            let response = await fetch("/api/member/auth", {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/x-www-form-urlencoded"
+                },
+                body: "email=" + encodeURIComponent(form.email.value) + "&password=" + encodeURIComponent(form.password.value)
+            });
+            let result = await response.json();
+            if (result.ok) {
+                alert("登入成功");
+                window.location="/member.html";
+            } else {
+                alert("登入失敗");
+            }
+        }
+    </script>  
+</body>
+</html>
