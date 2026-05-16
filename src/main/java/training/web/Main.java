@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.beans.factory.annotation.Autowired;
 import java.sql.DriverManager;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -18,6 +19,10 @@ import java.sql.SQLException;
 @SpringBootApplication
 @RestController
 public class Main {
+    // 宣告 ProductRepository 倉庫介面
+    @Autowired
+    private ProductRepository productRepository;
+
     public static void main(String[] args) {
         // 啟動網站應用 http://127.0.0.1:8080/
         SpringApplication.run(Main.class, args);
@@ -27,6 +32,14 @@ public class Main {
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
+    }
+
+    @GetMapping("/test-jpa-save")
+    public String save(@RequestParam String name) {
+        Product p = new Product();
+        p.setName(name);
+        productRepository.save(p);
+        return "已儲存";
     }
     
     // 註冊會員帳號 API
